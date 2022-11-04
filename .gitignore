@@ -35,3 +35,6 @@ kniep-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# .env file should be ignored
+.env
+
