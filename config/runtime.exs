@@ -1,4 +1,6 @@
 import Config
+import System, only: [get_env: 2]
+import String, only: [to_integer: 1]
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -19,6 +21,14 @@ import Config
 if System.get_env("PHX_SERVER") do
   config :kniep, KniepWeb.Endpoint, server: true
 end
+
+config :kniep, Kniep.Repo,
+  hostname: get_env("POSTGRES_HOST", "db"),
+  username: get_env("POSTGRES_USER", "postgres"),
+  password: get_env("POSTGRES_PASSWORD", "postgres"),
+  database: get_env("POSTGRES_DB", "postgres"),
+  port: get_env("POSTGRES_PORT", "5432") |> to_integer(),
+  pool_size: get_env("POSTGRES_POOL_SIZE", "5") |> to_integer()
 
 if config_env() == :prod do
   database_url =
