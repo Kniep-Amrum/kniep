@@ -9,18 +9,6 @@ config :kniep, Kniep.Repo, show_sensitive_data_on_connection_error: true
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :kniep, KniepWeb.Endpoint,
-  # Binding to loopback ipv4 address prevents access from other machines.
-  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
-  code_reloader: true,
-  debug_errors: true,
-  secret_key_base: "AETh+LY3IzzVLu0nhju4XkImKKuftMJplcB1mCkn2grFxMHbK/HeiWDV7KREB9sy",
-  watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
-  ]
 
 # ## SSL Support
 #
@@ -47,7 +35,14 @@ config :kniep, KniepWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :kniep, KniepWeb.Endpoint,
+
+config :tragga, TraggaWeb.Endpoint,
+  debug_errors: true,
+  code_reloader: true,
+  check_origin: false,
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+  ],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
@@ -55,7 +50,8 @@ config :kniep, KniepWeb.Endpoint,
       ~r"lib/kniep_web/(live|views)/.*(ex)$",
       ~r"lib/kniep_web/templates/.*(eex)$"
     ]
-  ]
+  ],
+  http: [port: 4000]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

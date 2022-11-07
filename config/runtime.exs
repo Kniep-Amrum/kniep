@@ -1,5 +1,5 @@
 import Config
-import System, only: [get_env: 2]
+import System, only: [get_env: 2, fetch_env!: 1]
 import String, only: [to_integer: 1]
 
 # config/runtime.exs is executed for all environments, including
@@ -18,9 +18,14 @@ import String, only: [to_integer: 1]
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
-if System.get_env("PHX_SERVER") do
-  config :kniep, KniepWeb.Endpoint, server: true
-end
+config :kniep, KniepWeb.Endpoint,
+  http: [:inet6, port: get_env("PORT", "4000") |> to_integer()],
+  url: [
+    scheme: get_env("URL_SCHEME", "http"),
+    host: get_env("HOST", "localhost"),
+    port: get_env("URL_PORT", "4000")
+  ],
+  secret_key_base: fetch_env!("SECRET_KEY_BASE")
 
 config :kniep, Kniep.Repo,
   hostname: get_env("POSTGRES_HOST", "db"),
