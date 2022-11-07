@@ -36,7 +36,7 @@ config :kniep, Kniep.Repo, show_sensitive_data_on_connection_error: true
 
 # Watch static and templates for browser reloading.
 
-config :tragga, TraggaWeb.Endpoint,
+config :kniep, KniepWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
