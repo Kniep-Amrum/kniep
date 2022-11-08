@@ -19,3 +19,7 @@ services:
       - "4001:4001"
     depends_on:
     - db
+    volumes:
+      - type: bind
+        source: .
+        target: /app
