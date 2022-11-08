@@ -20,6 +20,4 @@ services:
     depends_on:
     - db
     volumes:
-      - type: bind
-        source: .
-        target: /app
+      - .:/app
