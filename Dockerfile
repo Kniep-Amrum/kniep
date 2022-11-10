@@ -4,6 +4,9 @@ RUN mkdir /app
 COPY . /app
 WORKDIR /app
 
+RUN apk --no-cache --update-cache --available upgrade \
+    && apk add --no-cache --update-cache inotify-tools bash
+
 RUN mix local.hex --force && \ 
     mix local.rebar --force
 
