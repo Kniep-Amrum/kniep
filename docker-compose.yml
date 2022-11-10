@@ -20,4 +20,16 @@ services:
     depends_on:
     - db
     volumes:
-      - .:/app
+      - code:/app
+volumes:
+  code: null
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: true
+    code:
+      alpha: "."
+      beta: "volume://code"
+      mode: "two-way-resolved"
+
